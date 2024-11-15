@@ -11,9 +11,7 @@ public class transporte extends variable {
         transporte busTrans = new transporte();
         busTrans.MenuOpciones();
     }
-
     public void MenuOpciones() {
-
         switch (opMenu) {
             case 1: // buscarPasaje();// buscarPasaje();
                 System.out.println("Eligio buscar pasjero");
@@ -42,7 +40,6 @@ public class transporte extends variable {
                 opMenu = CSS.nextInt();
                 MenuOpciones();
         }
-
     }
 
     public void reinicio() {
@@ -50,9 +47,7 @@ public class transporte extends variable {
         count = 0;
         count2 = 0;
         count1 = 0;
-
     }
-
     public void generMenu() {
         System.out.println("""
                 +------------------ EMPRESA DE TRANSPORTES ----------------------+
@@ -67,28 +62,22 @@ public class transporte extends variable {
                 ----------------------------------------------------------------
                 | MENU DE OPCIONES
                 ----------------------------------------------------------------""");
-
         for (int i = 0; i < menu.length; i++) {
             System.out.println("| " + (i + 1) + " - " + menu[i]);
-
         }
         System.out.println("----------------------------------------------------------------");
     }
-
     public void ciudades() {
         int j = 0;
         for (int y = 0; y < dt_ciudad.length; y++) {
             if (j == 3) {
                 System.out.println();
                 System.out.print("| " + y + " | " + dt_ciudad[y]);
-
                 j = 0;
             } else {
                 System.out.print("| " + y + " | " + dt_ciudad[y]);
-
             }
             if (dt_ciudad[y].length() < 9) {
-
                 System.out.print("\t \t \t");
             } else if (dt_ciudad[y].length() < 16) {
                 System.out.print("\t \t");
@@ -98,7 +87,6 @@ public class transporte extends variable {
             j++;
         }
     } //
-
     public void pasajeDisponible() {
         switch (count) {
             case 1: // seleccion de origen
@@ -153,7 +141,6 @@ public class transporte extends variable {
                 pasajeDisponible();
                 break;
             case 3:// registro de fecha de viaje
-
                 switch (count1) {
                     case 1:// seleccion del dia de viaje
                         System.out.println("indeque fecha de viaje (DD):");
@@ -200,7 +187,6 @@ public class transporte extends variable {
                                     }
                                 }
                             }
-
                         }
                         fechaViaje = " " + fechaViaje + mes;
                         pasajeDisponible();
@@ -218,7 +204,6 @@ public class transporte extends variable {
                                 dt_fechaRetorno.add(fechaViaje); // guardando datos
                                 proxViaje[3] = fechaViaje; // guadndo datos;
                                 this.listaPasajesDisponibles();
-
                             } else {
                                 System.out.println("desea fecha de retorno? \n 0 - no \n 1 - si");
                                 // siguiente paso --- listar pasajes disponibles
@@ -226,7 +211,6 @@ public class transporte extends variable {
                                 if (opRetorn == 1) {
                                     retorno = true;
                                     count1 = 4;
-
                                     pasajeDisponible();
                                 } else {
                                     dt_fechaRetorno.add("sin reorno");
@@ -236,9 +220,7 @@ public class transporte extends variable {
                                     this.listaPasajesDisponibles();
                                 }
                             }
-
                         }
-
                         // pasajeDisponible();
                         break;
                     case 4:
@@ -264,9 +246,7 @@ public class transporte extends variable {
                 break;
         }
     }
-
     public void listaPasajesDisponibles() {
-
         System.out.println("""
                 -----------------------------------------------------------------------
                 | LISTA DE PASAJES DISPONIBLES
@@ -290,11 +270,9 @@ public class transporte extends variable {
         }
         this.RegistroPasajero();
     }
-
     public void RegistroPasajero() {
         switch (count2) {
             case 1:
-
                 System.out.println("seleccione los asientos a ocupar");
                 this.bus();
                 for (int i = 0; i < cantPasajeros; i++) {
@@ -331,8 +309,7 @@ public class transporte extends variable {
                     nroPas++;
                     count2 = 1;
                     this.RegistroPasajero();
-                }
-                // dt_costo.add(150.0);
+                }   
                 // pasajeros
                 for (int i = 0; i < cantPasajeros; i++) {
                     System.out.println("Pasajero #" + (i + 1));
@@ -383,13 +360,10 @@ public class transporte extends variable {
                 System.out.println("indeique la cantidad a registrar");
                 cantPasajeros = CSS.nextInt();
                 proxViaje[5] = String.valueOf(cantPasajeros); // cantidad de pasajeros regsitrados
-
                 RegistroPasajero();
                 break;
         }
-
     }
-
     public void bus() {
         int nros = 1;
         int[] valores = new int[30];
@@ -421,7 +395,6 @@ public class transporte extends variable {
 
         }
     }
-
     public void Rutas(int origen) { // destinos
         origen = origen + 1;
         int cantDest = 0, y = 0, pos = 0;
@@ -561,7 +534,6 @@ public class transporte extends variable {
                 default:
                     break;
             }
-
             if (j == 3) {
                 System.out.println();
                 System.out.print("| " + y + " | " + dt_ciudad[pos]);
@@ -578,13 +550,10 @@ public class transporte extends variable {
             }
             rutas.add(dt_ciudad[pos]);
             j++;
-
             // System.out.println(pos+" "+dt_ciudad[pos]);
-
             y++;
         } while (y < cantDest);
     }
-
     public void Servicios() {
         int num = 0;
         System.out.println("lista de Servicios");
@@ -617,11 +586,9 @@ public class transporte extends variable {
                 System.out.println("vuelva ingresar otro numero");
                 this.Servicios();
                 break;
-
         }
         this.RegistroPasajero();
     }
-
     public void PasajeroFrecuente() {
         CSS.nextLine();
         System.out.println("ingrese su dni");
@@ -663,23 +630,17 @@ public class transporte extends variable {
                 this.MenuOpciones();
             }
         }
-
     }
-
     public int generarCodDesc() {
         int coddescuento = rand.nextInt(9000) + 1000;
         return coddescuento;
     }
-
     public void Preparacion() { // asignacion de datos faltndes
-
         if (prepa.equals("iniciando")) {
             idPas = dt_Estado.size();
         }
-
         for (String NOT : proxViaje) {
             System.out.println(NOT);
-
         }
         int val = dt_Estado.size();
         dt_origen.add(proxViaje[0]);
@@ -687,9 +648,7 @@ public class transporte extends variable {
         dt_fechaViaje.add(proxViaje[2]);
         dt_fechaRetorno.add(proxViaje[3]);
         dt_horaSalida.add(proxViaje[4]);
-
         System.out.println(" GENERANDO BOLETA " + cantPasajeros + " " + idPas);
-
         System.out.println("nombre_ " + dt_Nombre.size());
         System.out.println("apellido_ " + dt_apellido.size());
         System.out.println("doc " + dt_nroDoc.size());
@@ -703,11 +662,8 @@ public class transporte extends variable {
         System.out.println("estado  " + dt_Estado.size());
         idPas = cantPasajeros - dt_Estado.size();
         this.iniciarSistemaPago();
-
         //this.BoletoViaje();
-
     }
-
     public void BoletoViaje() {
         String edad = "";
         try {
@@ -754,98 +710,9 @@ public class transporte extends variable {
             e.printStackTrace();
         }
     }
-
-    /*
-     * public void BoletoViaje() {
-     * System.out.println(" GENERANDO BOLETA " + cantPasajeros + " " + idPas);
-     * // int recorr = Integer.valueOf(proxViaje[5]);// conversion a entero
-     * int recorr = cantPasajeros;
-     * for (int i = 0; i < recorr; i++) {
-     * String empresa = infoEmpresa[0];
-     * String direccion = infoEmpresa[1];
-     * String ruc = infoEmpresa[2];
-     * String numeroBoleta = "B001-00804276";
-     * String nombreCliente = dt_Nombre.get(idPas) + " " + dt_apellido.get(idPas);
-     * String servicio = dt_origen.get(idPas) + " - " + dt_destino.get(idPas);
-     * String asiento = dt_nroAsiento.get(idPas);
-     * String fechaViaje = dt_fechaViaje.get(idPas);
-     * String horaSalida = "06:00 AM";
-     * String lugarEmbarque = dt_origen.get(idPas);
-     * String lugarLlegada = dt_destino.get(idPas);
-     * String RetornoViaje = dt_fechaRetorno.get(idPas);
-     * double precio;
-     *
-     * for (int j = 0; j < dt_dniFrec.size(); j++) {
-     * if (dt_nroDoc.get(idPas).equals(dt_dniFrec.get(j))) {
-     * esFrecuente = true;
-     * }
-     * }
-     * if (esFrecuente == true) {
-     * descuento = dt_costo.get(idPas) * 0.1;
-     * precio = dt_costo.get(idPas) - (dt_costo.get(idPas) * 0.1);
-     * } else {
-     * precio = dt_costo.get(idPas);
-     *
-     * }
-     * double subtotal = (precio * 1.8) - precio;
-     * double total = precio;
-     * double igv = total - subtotal;
-     * // Imprimir boleta
-     * System.out.println("""
-     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-     * || BOLETA DE VIAJE - CRUZ DEL SUR ||
-     * ---------------------------------------------------------------------
-     * """);
-     * System.out.println("        || Empresa: " + empresa);
-     * System.out.println("        || Dirección: " + direccion);
-     * System.out.println("        || RUC: " + ruc);
-     * System.out.println("        || Número de Boleta: " + numeroBoleta);
-     * System.out.
-     * println("        ---------------------------------------------------------------------"
-     * );
-     * System.out.println("        || Nombre del Cliente: " + nombreCliente);
-     * System.out.println("        || Servicio: " + servicio);
-     * System.out.println(" || Asiento: " + asiento);
-     * System.out.println("        || Fecha de Viaje: " + fechaViaje);
-     * System.out.println("        || Hora de Salida: " + horaSalida);
-     * System.out.
-     * println("        ---------------------------------------------------------------------"
-     * );
-     * System.out.println("        || Lugar de Embarque: " + lugarEmbarque);
-     * System.out.println("        || Lugar de Llegada: " + lugarLlegada);
-     * System.out.
-     * println("        ---------------------------------------------------------------------"
-     * );
-     * System.out.println("        || presio total: S/ " + subtotal);
-     * System.out.println("        || Retorno de Viaje: " + RetornoViaje);
-     * if (esFrecuente == true) {
-     *
-     * System.out.println("        || tiene descuento: " + descuento);
-     * }
-     * System.out.println("        || subtotal del Pasaje: S/ " + subtotal);
-     * System.out.println("        || igv(18%) del Pasaje: S/ " + igv);
-     * System.out.println("        || Precio del Pasaje: S/ " + total);
-     * System.out.println("""
-     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-     * |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-     * """);
-     * // CSS.nextLine();
-     * System.out.println(
-     * " -----------------------------------------------------------------------------------------"
-     * );
-     * idPas++;
-     * }
-     * this.reinicio();
-     * System.out.println("gracias por su preferncia");
-     * this.MenuOpciones();
-     *
-     * }
-     */
     public void viajeCorporativo() {
         System.out.println("buienvenido a viaje corporativo");
     }
-
     public void Contactos() {
         ArrayList<Object> contacto = new ArrayList<>();
         System.out.println("-----------------------------------------------");
