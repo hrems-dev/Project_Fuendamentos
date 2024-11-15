@@ -1,10 +1,12 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class transporte extends variables {
+public class transporte extends variable {
     public static void main(String[] args) {
         transporte busTrans = new transporte();
         busTrans.MenuOpciones();
@@ -48,6 +50,7 @@ public class transporte extends variables {
         count = 0;
         count2 = 0;
         count1 = 0;
+
     }
 
     public void generMenu() {
@@ -699,7 +702,9 @@ public class transporte extends variables {
         System.out.println("Fecha de viaje " + dt_fechaViaje.size());
         System.out.println("estado  " + dt_Estado.size());
         idPas = cantPasajeros - dt_Estado.size();
-        this.BoletoViaje();
+        this.iniciarSistemaPago();
+
+        //this.BoletoViaje();
 
     }
 
@@ -707,7 +712,7 @@ public class transporte extends variables {
         String edad = "";
         try {
             FileWriter writer = new FileWriter("boleta.txt");
-            
+
             for (int j = 0; j < cantPasajeros; j++) {
                 if (Integer.parseInt(dt_anioNac.get(idPas)) > 2006) {
                     edad = "menor de edad";
@@ -736,10 +741,13 @@ public class transporte extends variables {
                 }
 
                 writer.write("\nTotal Costo: " + costo + "\n");
+                writer.write("Metodo de pago: " + metodPago + "\n");
                 writer.write("===========================\n");
                 idPas++;
             }
             writer.close();
+            this.reinicio();
+            this.MenuOpciones();
             //System.out.println("Boleta impresa en D:\\boleta.txt");
         } catch (IOException e) {
             System.out.println("Ocurrió un error al escribir la boleta.");
@@ -766,7 +774,7 @@ public class transporte extends variables {
      * String lugarLlegada = dt_destino.get(idPas);
      * String RetornoViaje = dt_fechaRetorno.get(idPas);
      * double precio;
-     * 
+     *
      * for (int j = 0; j < dt_dniFrec.size(); j++) {
      * if (dt_nroDoc.get(idPas).equals(dt_dniFrec.get(j))) {
      * esFrecuente = true;
@@ -777,7 +785,7 @@ public class transporte extends variables {
      * precio = dt_costo.get(idPas) - (dt_costo.get(idPas) * 0.1);
      * } else {
      * precio = dt_costo.get(idPas);
-     * 
+     *
      * }
      * double subtotal = (precio * 1.8) - precio;
      * double total = precio;
@@ -812,7 +820,7 @@ public class transporte extends variables {
      * System.out.println("        || presio total: S/ " + subtotal);
      * System.out.println("        || Retorno de Viaje: " + RetornoViaje);
      * if (esFrecuente == true) {
-     * 
+     *
      * System.out.println("        || tiene descuento: " + descuento);
      * }
      * System.out.println("        || subtotal del Pasaje: S/ " + subtotal);
@@ -831,9 +839,9 @@ public class transporte extends variables {
      * this.reinicio();
      * System.out.println("gracias por su preferncia");
      * this.MenuOpciones();
-     * 
+     *
      * }
-      */
+     */
     public void viajeCorporativo() {
         System.out.println("buienvenido a viaje corporativo");
     }
@@ -909,7 +917,8 @@ public class transporte extends variables {
             System.out.println("Opción no válida. El programa finalizará.");
         }
         System.out.println("Gracias por utilizar Contacto Cruz del Sur.");
-        this.MenuOpciones();
+        this.reinicio();
+
     }
     public void ViajeCorp() {
         // Variables
@@ -957,5 +966,160 @@ public class transporte extends variables {
                 """);
 
     }
+    //metodos pago frank
+    public void iniciarSistemaPago() {
+        System.out.println("""
+                --------------------------------------------------------------------------
+                | SISTEMA DE PAGO
+                --------------------------------------------------------------------------
+                """);
+        while (true) {
+            switch (count5) {
+                case 1 -> validarCorreo();
+                case 2 -> validarTelefono();
+                case 3 -> mostrarMenuOpcionesPago();
+                default -> count5 = 1;
+            }
+        }
+    }
+    public void validarCorreo() {
+        System.out.print("Correo electrónico: ");
+        String correo = CSS.nextLine();
+        N_Verficacion_pago.add(correo);
+        guardarEnArchivo("Correo: " + correo);
+        if (esCorreoValido(correo)) {
+            System.out.println("Correo electrónico aceptado.");
+            count5 = 2;
+        } else {
+            System.out.println("Correo electrónico incorrecto. Intente nuevamente.");
+            count5 = 1;
+        }
+    }
+    private boolean esCorreoValido(String correo) {
+        String regex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z]{2,7}$";
+        return Pattern.matches(regex, correo);
+    }
+    public void validarTelefono() {
+        System.out.print("Número telefónico: ");
+        String telefono = CSS.nextLine();
+        tel_Verficacion_pago.add(telefono);
+        guardarEnArchivo("Teléfono: " + telefono);
+
+        if (esTelefonoValido(telefono)) {
+            System.out.println("Número telefónico aceptado.");
+            count5 = 3;
+        } else {
+            System.out.println("Número telefónico incorrecto. Debe comenzar con 9 y tener 9 dígitos.");
+            count5 = 2;
+        }
+    }
+    public boolean esTelefonoValido(String telefono) {
+        String regex = "\\b9\\d{8}\\b";
+        return Pattern.matches(regex, telefono);
+    }
+    public void mostrarMenuOpcionesPago() {
+        System.out.println("----- Menú de Opciones de Pago -----");
+        String[] opciones = {"Pago con tarjeta de débito o crédito", "Pago con Yape", "Pago en efectivo", "Salir"};
+        for (int i = 0; i < opciones.length; i++) {
+            System.out.println(" | "+(i + 1) + " | " + opciones[i]);
+        }
+        int opcion = CSS.nextInt();
+        CSS.nextLine();
+        switch (opcion) {
+            case 1 -> realizarPagoTarjeta();
+            case 2 -> realizarPagoYape();
+            case 3 -> realizarPagoEfectivo();
+            case 4 -> {
+                System.out.println("Saliendo del menú.");
+                return;
+            }
+            default -> System.out.println("Opción no válida. Intente de nuevo.");
+        }
+    }
+    public void realizarPagoTarjeta() {
+        System.out.println("Has seleccionado Pago con tarjeta de débito.");
+        String tarjeta = solicitarDato("Ingrese el número de la tarjeta de débito(13 digitos): ", this::esTarjetaValida,
+                "Número de tarjeta inválido. Debe contener 16  dígitos.");
+        numeroTarjeta.add(tarjeta);
+        guardarEnArchivo("Número de Tarjeta: " + tarjeta);
+
+        String fecha = solicitarDato("Ingrese la fecha de vencimiento (MM/AA): ", this::esFechaVencimientoValida,
+                "Fecha de vencimiento inválida. Intente nuevamente.");
+        tar_Verficacion_V.add(fecha);
+        guardarEnArchivo("Fecha de Vencimiento: " + fecha);
+
+        System.out.println("Pago realizado con éxito.");
+        guardarEnArchivo("Pago con tarjeta de débito realizado con éxito.");
+        metodPago="targeta de credito";
+        this.BoletoViaje();
+    }
+    public void realizarPagoYape() {
+        System.out.println("Has seleccionado Pago con Yape.");
+        System.out.println("MONTO: "+costo);
+        String telefono = solicitarDato("Ingrese el número de teléfono asociado a Yape: ", this::esTelefonoValido,
+                "Número telefónico incorrecto. Debe comenzar con 9 y tener 9 dígitos.");
+        telefonoYape.add(telefono);
+        guardarEnArchivo("Teléfono Yape: " + telefono);
+
+        System.out.print("¿Desea confirmar el pago a " + telefono + " por "+costo +" (si/no): ");
+        String op_PY=CSS.nextLine();
+        if (op_PY.equals("si")) {
+            System.out.println("Pago con Yape de 0 confirmado a " + telefono + ".");
+            guardarEnArchivo("Pago con Yape confirmado a " + telefono + ".");
+           // this.BoletoViaje();
+        } else {
+            System.out.println("Pago cancelado.");
+            guardarEnArchivo("Pago con Yape cancelado.");
+        }
+        metodPago="pago con YAPE";
+        this.BoletoViaje();
+    }
+    public void realizarPagoEfectivo() {
+        int codigoPago = rand.nextInt(9000) + 1000;
+        System.out.println("Método de pago por Pago efectivo seleccionado.");
+        System.out.println("\nEmpresa: PagoEfectivo.\nCódigo de pago (CIP): " + codigoPago + "\nMonto: " + costo); // monto
+        guardarEnArchivo("Código de pago (CIP): " + codigoPago);
+        System.out.print("¿Desea confirmar el pago? (si/no): ");
+        String op_PE=CSS.nextLine();
+        if (op_PE.equals("si")) {
+            System.out.println("Pago en efectivo confirmado.");
+            guardarEnArchivo("Pago en efectivo confirmado.");
+            metodPago="pago en efectivo";
+            this.BoletoViaje();
+        } else {
+            System.out.println("Pago cancelado.");
+            guardarEnArchivo("Pago en efectivo cancelado.");
+        }
+    }
+    public void guardarEnArchivo(String texto) {
+        try (FileWriter writer = new FileWriter("D:\\datos_pago.txt", true)) {
+            writer.write(texto + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar en archivo: " + e.getMessage());
+        }
+    }
+    public boolean esTarjetaValida(String tarjeta) {
+        return tarjeta.matches("\\d{16}");
+    }
+    public boolean esFechaVencimientoValida(String fecha) {
+        Pattern pattern = Pattern.compile("^(0[1-9]|1[0-2])/(\\d{2})$");
+        Matcher matcher = pattern.matcher(fecha);
+        if (!matcher.matches()) return false;
+        String[] partes = fecha.split("/");
+        int mes = Integer.parseInt(partes[0]);
+        int anio = Integer.parseInt(partes[1]) + 2000;
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaTarjeta = LocalDate.of(anio, mes, 1);
+        return !fechaTarjeta.isBefore(fechaActual);
+    }
+    public String solicitarDato(String mensaje, Function<String, Boolean> validacion, String mensajeError) {
+        while (true) {
+            System.out.print(mensaje);
+            String dato = CSS.nextLine();
+            if (validacion.apply(dato)) return dato; // Usar la funcion para validar
+            System.out.println(mensajeError);
+        }
+    }
+    //final de metodo de pago
 
 }
