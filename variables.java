@@ -41,7 +41,6 @@ public class variable {
     //
     public ArrayList<Boolean> dt_retorno = new ArrayList<Boolean>();
     public ArrayList<Boolean> dt_Estado = new ArrayList<Boolean>();
-
     // descuento
     public ArrayList<String> dt_dniFrec = new ArrayList<String>();
     public ArrayList<String> dt_codDes = new ArrayList<String>();
