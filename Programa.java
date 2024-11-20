@@ -668,7 +668,9 @@ public class transporte extends variable {
         String edad = "";
         try {
             FileWriter writer = new FileWriter("boleta.txt");
-
+            double subtotal = (costo*1.8)-costo;
+            double total= costo;
+            double igv= total-subtotal;
             for (int j = 0; j < cantPasajeros; j++) {
                 if (Integer.parseInt(dt_anioNac.get(idPas)) > 2006) {
                     edad = "menor de edad";
@@ -695,8 +697,10 @@ public class transporte extends variable {
                 for (int i = 0; i < Labels.length; i++) {
                     writer.write(Labels[i] + ": " + sala[i] + "\n");
                 }
-
+                writer.write("        || subtotal del Pasaje: S/ " + subtotal);
+                writer.write("        || igv(18%) del Pasaje: S/ " + igv);
                 writer.write("\nTotal Costo: " + costo + "\n");
+                
                 writer.write("Metodo de pago: " + metodPago + "\n");
                 writer.write("===========================\n");
                 idPas++;
